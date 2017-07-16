@@ -1,6 +1,6 @@
 FROM php:7.1.7-fpm
 
-ENV NGINX_VERSION 1.12.0-1~jessie
+ENV NGINX_VERSION 1.12.1-1~jessie
 # Setup webserver and process manager
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
@@ -10,11 +10,11 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
 						nginx=${NGINX_VERSION} \
-						nginx-module-xslt \
-						nginx-module-geoip \
-						nginx-module-image-filter \
-						nginx-module-perl \
-						nginx-module-njs \
+						nginx-module-xslt=${NGINX_VERSION} \
+						nginx-module-geoip=${NGINX_VERSION} \
+						nginx-module-image-filter=${NGINX_VERSION} \
+						nginx-module-perl=${NGINX_VERSION} \
+						nginx-module-njs=${NGINX_VERSION} \
 						gettext-base \
 						supervisor \
 	            		openssh-server \
