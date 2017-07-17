@@ -1,8 +1,7 @@
 FROM php:7.1.7-fpm
 
-ENV NGINX_VERSION 1.13.3-1
-ENV NJS_VERSION   1.13.3.0.1.11-1
-# Setup webserver and process manager
+ENV NGINX_VERSION 1.12.1-1
+ENV NJS_VERSION   1.12.1.0.1.10-1
 
 RUN apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y gnupg1 \
@@ -20,7 +19,7 @@ RUN apt-get update \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
 	apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/* \
-	&& echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
+	&& echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						nginx=${NGINX_VERSION} \
@@ -30,7 +29,7 @@ RUN apt-get update \
 						nginx-module-njs=${NJS_VERSION} \
 						gettext-base \
 						supervisor \
-	            		openssh-server \
+						openssh-server \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& echo "root:Docker!" | chpasswd
 
