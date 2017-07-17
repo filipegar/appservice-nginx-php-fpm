@@ -1,7 +1,7 @@
 FROM php:7.1.7-fpm
 
-ENV NGINX_VERSION 1.13.3-1~stretch
-ENV NJS_VERSION   1.13.3.0.1.11-1~stretch
+ENV NGINX_VERSION 1.13.3-1
+ENV NJS_VERSION   1.13.3.0.1.11-1
 # Setup webserver and process manager
 
 RUN apt-get update \
@@ -19,7 +19,7 @@ RUN apt-get update \
 		apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
-	apt-get remove --purge -y gnupg1 && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/* \
+	apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/* \
 	&& echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
