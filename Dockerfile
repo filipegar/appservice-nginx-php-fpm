@@ -47,6 +47,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf	
 COPY sshd_config /etc/ssh/
 COPY init_container.sh /bin/
+COPY ./app/* /var/www/html/
 
 # tweak php-fpm config
 RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
