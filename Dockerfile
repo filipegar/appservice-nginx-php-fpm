@@ -1,4 +1,4 @@
-FROM php:7.1-fpm
+FROM php:7.2-fpm
 
 
 ENV php_conf /usr/local/etc/php-fpm.conf
