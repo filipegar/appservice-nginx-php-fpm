@@ -36,7 +36,14 @@ RUN apt-get update \
 						supervisor \
 						openssh-server \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& echo "root:Docker!" | chpasswd	
+	&& echo "root:Docker!" | chpasswd \
+    	&& docker-php-ext-install mysqli \
+         	opcache \
+         	mcrypt \
+         	zip \
+         	bcmath \
+         	mbstring \
+         	pcntl 
 
 # forward request and error logs to docker log collector
 RUN mkdir -p /home/LogFiles/docker \
