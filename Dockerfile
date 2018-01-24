@@ -39,7 +39,6 @@ RUN apt-get update \
 	&& echo "root:Docker!" | chpasswd \
     	&& docker-php-ext-install mysqli \
          	opcache \
-         	mcrypt \
          	zip \
          	bcmath \
          	mbstring \
