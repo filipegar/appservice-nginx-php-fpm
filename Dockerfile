@@ -42,7 +42,6 @@ RUN apt-get update \
          	bcmath \
          	mbstring \
          	pcntl \
-            openssl \
             xml
 
 # forward request and error logs to docker log collector
