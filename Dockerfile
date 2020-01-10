@@ -1,12 +1,12 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 
 
 ENV php_conf /usr/local/etc/php-fpm.conf
 ENV fpm_conf /usr/local/etc/php-fpm.d/www.conf
 ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
 
-ENV NGINX_VERSION 1.13.3-1~stretch
-ENV NJS_VERSION   1.13.3.0.1.11-1~stretch
+ENV NGINX_VERSION 1.16.1-1~buster
+ENV NJS_VERSION   1.16.1.0.3.7-1~buster
 
 RUN apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y gnupg1 \
@@ -24,7 +24,7 @@ RUN apt-get update \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
 	apt-get remove --purge -y gnupg1 && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/* \
-	&& echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list \
+	&& echo "deb http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						nginx=${NGINX_VERSION} \
@@ -41,7 +41,11 @@ RUN apt-get update \
          	opcache \
          	bcmath \
          	mbstring \
-         	pcntl 
+         	pcntl \
+         	ctype \
+            openssl \
+            pdo \
+            xml
 
 # forward request and error logs to docker log collector
 RUN mkdir -p /home/LogFiles/docker \
@@ -59,7 +63,7 @@ RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
     echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
     echo "post_max_size = 100M"  >> ${php_vars} &&\
     echo "variables_order = \"EGPCS\""  >> ${php_vars} && \
-    echo "memory_limit = 128M"  >> ${php_vars} && \
+    echo "memory_limit = 256M"  >> ${php_vars} && \
     sed -i \
         -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
         -e "s/pm.max_children = 5/pm.max_children = 4/g" \
