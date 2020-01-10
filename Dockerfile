@@ -9,7 +9,7 @@ ENV NGINX_VERSION 1.16.1-1~buster
 ENV NJS_VERSION   1.16.1.0.3.7-1~buster
 
 RUN apt-get update \
-	&& apt-get install --no-install-recommends --no-install-suggests -y libonig-dev apt-utils curl gnupg2 ca-certificates \
+	&& apt-get install --no-install-recommends --no-install-suggests -y libonig-dev apt-utils curl gnupg2 ca-certificates libxml++2.6-dev \
 	&& \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
 	found=''; \
