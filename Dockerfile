@@ -9,7 +9,7 @@ ENV NGINX_VERSION 1.16.1-1~buster
 ENV NJS_VERSION   1.16.1.0.3.7-1~buster
 
 RUN apt-get update \
-	&& apt-get install --no-install-recommends --no-install-suggests -y gnupg1 \
+	&& apt-get install --no-install-recommends --no-install-suggests -y libonig-dev apt-utils curl gnupg2 ca-certificates \
 	&& \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
 	found=''; \
@@ -23,8 +23,8 @@ RUN apt-get update \
 		apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
-	apt-get remove --purge -y gnupg1 && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/* \
-	&& echo "deb http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list \
+	apt-get remove --purge -y gnupg2 && apt-get -y --purge autoremove && rm -rf /var/lib/apt/lists/* \
+	&& echo "deb http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list.d/nginx.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						nginx=${NGINX_VERSION} \
@@ -42,9 +42,7 @@ RUN apt-get update \
          	bcmath \
          	mbstring \
          	pcntl \
-         	ctype \
             openssl \
-            pdo \
             xml
 
 # forward request and error logs to docker log collector
@@ -82,6 +80,6 @@ RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
 
 RUN chmod 755 /bin/init_container.sh
   
-EXPOSE 80 2222
+EXPOSE 80 443
 
 CMD ["/bin/init_container.sh"]
